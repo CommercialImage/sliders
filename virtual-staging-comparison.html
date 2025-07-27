@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Before & After Slider</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { margin: 0; }
+    .slider-container {
+      position: relative;
+      max-width: 100%;
+      overflow: hidden;
+      touch-action: pan-y;
+    }
+    .ba-wrapper {
+      position: relative;
+      width: 100%;
+      cursor: ew-resize;
+    }
+    .ba-wrapper img {
+      width: 100%;
+      display: block;
+      height: auto;
+    }
+    .ba-resize {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50%;
+      height: 100%;
+      overflow: hidden;
+    }
+    .ba-handle {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 4px;
+      height: 100%;
+      background: #fff;
+      border-left: 1px solid #aaa;
+      border-right: 1px solid #aaa;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+  <div class="slider-container">
+    <div class="ba-wrapper" id="ba-wrapper">
+      <img src="https://www.commercialimage.net/-/galleries/client-galleries/commercial-image/-/medias/01984d0a-c854-7922-b0cb-c53694a7d67b" alt="After">
+      <div class="ba-resize" id="ba-resize">
+        <img src="https://www.commercialimage.net/-/galleries/client-galleries/commercial-image/-/medias/01984d0a-dafd-748b-ad40-d5ec0cf6847b" alt="Before">
+      </div>
+      <div class="ba-handle" id="ba-handle"></div>
+    </div>
+  </div>
+
+  <script>
+    const wrapper = document.getElementById('ba-wrapper');
+    const handle = document.getElementById('ba-handle');
+    const resize = document.getElementById('ba-resize');
+
+    function setPosition(x) {
+      const rect = wrapper.getBoundingClientRect();
+      let posX = Math.max(0, Math.min(x - rect.left, rect.width));
+      handle.style.left = posX + 'px';
+      resize.style.width = posX + 'px';
+    }
+
+    wrapper.addEventListener('mousemove', e => setPosition(e.clientX));
+    wrapper.addEventListener('touchmove', e => {
+      if (e.touches.length > 0) {
+        setPosition(e.touches[0].clientX);
+      }
+    });
+  </script>
+</body>
+</html>
